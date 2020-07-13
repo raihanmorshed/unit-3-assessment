@@ -8,3 +8,12 @@ label {
     width: 100px;
     text-align: right;
 }
+
+table {
+    margin: 2rem auto;
+}
+
+table a {
+    color: red;
+    text-decoration: none;
+}

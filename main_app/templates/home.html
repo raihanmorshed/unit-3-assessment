@@ -1,11 +1,50 @@
-{% extends 'base.html' %}
-{% block content %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>Wacky Widgets</h1>
-<h3>No Widgets Exist</h3>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wacky Widgets</title>
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-<hr>
+</head>
 
+<body>
+  <h1>Wacky Widgets</h1>
+  {% if widget_list|length == 0 %}
+  <h3>No Widgets Exist</h3>
+  {% else %}
+  <table class='pure-table pure-table-striped'>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    {% for widget in widget_list.all %}
+    <tr>
+      <td>{{widget.description}}</td>
+      <td>{{widget.quantity}}</td>
+      <td><a href= "{% url 'widget_delete' widget.id %}">X</a></td>
+    </tr>
+    {% endfor %}
+    <tr class = 'total'>
+     <td>Total Quantity</td>
+     <td>{{total_widget}}</td>
+     <td></td>
+   </tr>
+  </table>
+  {% endif %}
+  <hr>
+  <h4>Add Widget</h4>
+  <form action="{% url 'add_widget' %}" method="post">
+   {% csrf_token %}
+   {{ widget_form.as_p }}
+   <input type="submit" class="btn pure-button" value="ADD WIDGET">
+ </form>
+</body>
 
-{% endblock %}
+</html>
